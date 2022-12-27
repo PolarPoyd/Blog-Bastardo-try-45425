@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categories{% endblock %}
+
+{% block body %}
+    {% if not category.items is same as([])%}
+    <h1 class="d-flex justify-content-center mt-5">Mes catégories</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class=" alert alert-success">
+        {{ message }}
+        </div>
+    {% endfor %}
+    <h3 class="d-flex justify-content-center mt-4"> 
+    Il y a {{category.getTotalItemCount}} catégories au total</h3>
+
+    <a href="{{ path('categories.new') }}" class="btn btn-outline-primary m-4">
+        Créer une catégorie
+    </a>
+
+    <div class="container mt-5">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Edition</th>
+                    <th scope="col">Suppression</th>
+
+                </tr>
+            </thead>
+        <tbody>
+      {% for category in category %}
+                <tr class="table-light">
+                    <th scope="row">{{ category.id }}</th>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.createdAt|date('d/m/Y') }}</td>
+                        <td>
+                            <a href="{{ path('categories.edit', { id: category.id}) }}" class="btn btn-outline-primary">Modifier</a>
+                        </td>
+                        <td>
+                        <td> 
+                            <a href="{{ path('categories.delete', { id: category.id}) }}" class="btn btn-outline-danger">Supprimer</a>
+                        </td>
+                </tr>
+    {% endfor %}
+        </tbody>
+        </table>
+    {# display navigation #}
+<div class="navigation d-flex justify-content-center mt-3">
+    {{ knp_pagination_render(category) }}
+</div>
+{% else %}
+<h4>Il n'y a pas d'ingrédients</h4>
+{% endif %}
+    </div>
+
+{% endblock %}
