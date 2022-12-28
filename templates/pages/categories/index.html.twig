@@ -3,7 +3,7 @@
 {% block title %}Categories{% endblock %}
 
 {% block body %}
-    {% if not category.items is same as([])%}
+    {% if not categories.items is same as([])%}
     <h1 class="d-flex justify-content-center mt-5">Mes catégories</h1>
 
     {% for message in app.flashes('success') %}
@@ -12,7 +12,7 @@
         </div>
     {% endfor %}
     <h3 class="d-flex justify-content-center mt-4"> 
-    Il y a {{category.getTotalItemCount}} catégories au total</h3>
+    Il y a {{categories.getTotalItemCount}} catégories au total</h3>
 
     <a href="{{ path('categories.new') }}" class="btn btn-outline-primary m-4">
         Créer une catégorie
@@ -25,23 +25,25 @@
                     <th scope="col">ID</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Date de création</th>
+                    {# <th scope="col">Articles associés</th> #}
                     <th scope="col">Edition</th>
                     <th scope="col">Suppression</th>
 
                 </tr>
             </thead>
         <tbody>
-      {% for category in category %}
+      {% for categories in categories %}
                 <tr class="table-light">
-                    <th scope="row">{{ category.id }}</th>
-                        <td>{{ category.name }}</td>
-                        <td>{{ category.createdAt|date('d/m/Y') }}</td>
+                    <th scope="row">{{ categories.id }}</th>
+                        <td>{{ categories.name }}</td>
+                        <td>{{ categories.createdAt|date('d/m/Y') }}</td>
+                        {# <td>{{ (categories.id articles.id is null) ? 'Aucun pour le moment' : categories.id articles.id }}</td> #}
                         <td>
-                            <a href="{{ path('categories.edit', { id: category.id}) }}" class="btn btn-outline-primary">Modifier</a>
+                            <a href="{{ path('categories.edit', { id: categories.id}) }}" class="btn btn-outline-primary">Modifier</a>
                         </td>
                         <td>
                         <td> 
-                            <a href="{{ path('categories.delete', { id: category.id}) }}" class="btn btn-outline-danger">Supprimer</a>
+                            <a href="{{ path('categories.delete', { id: categories.id}) }}" class="btn btn-outline-danger">Supprimer</a>
                         </td>
                 </tr>
     {% endfor %}
@@ -49,7 +51,7 @@
         </table>
     {# display navigation #}
 <div class="navigation d-flex justify-content-center mt-3">
-    {{ knp_pagination_render(category) }}
+    {{ knp_pagination_render(categories) }}
 </div>
 {% else %}
 <h4>Il n'y a pas d'ingrédients</h4>

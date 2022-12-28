@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CategoriesRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -25,6 +27,9 @@ class Categories
     #[Assert\NotNull()]
     private ?\DateTimeImmutable $created_at = null;
 
+    #[ORM\ManyToMany(targetEntity: Articles::class, mappedBy: 'categories')]
+    private Collection $articles;
+
 
     /**
      * Constructor
@@ -33,6 +38,7 @@ class Categories
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
+        $this->articles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,4 +69,32 @@ class Categories
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Articles>
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Articles $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles->add($article);
+            $article->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Articles $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            $article->removeCategory($this);
+        }
+
+        return $this;
+    }
+
 }

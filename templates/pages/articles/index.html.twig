@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block body %}
+    {% if not articles.items is same as([])%}
+    <h1 class="d-flex justify-content-center mt-5">Mes articles</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class=" alert alert-success">
+        {{ message }}
+        </div>
+    {% endfor %}
+    <h3 class="d-flex justify-content-center mt-4"> 
+    Il y a {{articles.getTotalItemCount}} articles au total</h3>
+
+    <a href="{{ path('article.new') }}" class="btn btn-outline-primary m-4">
+        Créer un article
+    </a>
+
+    <div class="container mt-5">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date de création</th>
+                    <th scope="col">Dernière modification</th>
+                    <th scope="col">Edition</th>
+                    <th scope="col">Suppression</th>
+
+                </tr>
+            </thead>
+        <tbody>
+      {% for article in articles %}
+                <tr class="table-light">
+                    <th scope="row">{{ article.id }}</th>
+                        <td>{{ article.title }}</td>
+                        <td>{{ article.description }}</td>
+                        <td>{{ article.createdAt|date('d/m/Y') }}</td>
+                        <td>{{ article.updatedAt|date('d/m/Y') }}</td>
+                        <td>
+                            <a href="{{ path('article.edit', { id: article.id}) }}" class="btn btn-outline-primary">Modifier</a>
+                        </td>
+                        <td>
+                        <td> 
+                            <a href="{{ path('article.delete', { id: article.id}) }}" class="btn btn-outline-danger">Supprimer</a>
+                        </td>
+                </tr>
+    {% endfor %}
+        </tbody>
+        </table>
+    {# display navigation #}
+<div class="navigation d-flex justify-content-center mt-3">
+    {{ knp_pagination_render(articles) }}
+</div>
+{% else %}
+<h4>Il n'y a pas d'article</h4>
+{% endif %}
+    </div>
+
+{% endblock %}

@@ -37,12 +37,12 @@ class CategoriesController extends AbstractController
             10 /*limit per page*/
         );
 
-
+        
         return $this->render('pages/categories/index.html.twig', [
-            'category' => $categories
+            'categories' => $categories
         ]);
+        
     }
-
 
     /**
      * This controller dislpay show a form wich display new category
@@ -116,8 +116,17 @@ class CategoriesController extends AbstractController
         ]);
     }
 
+    
+    /**
+     * This controller show how to delete a category
+     *
+     * @param EntityManagerInterface $manager
+     * @param Categories $categories
+     * @return Response
+     */
     #[Route('/categories/suppression/{id}', 'categories.delete', methods:['GET'])]
-    public function delete(EntityManagerInterface $manager, Categories $categories) : Response
+    public function delete(EntityManagerInterface $manager,
+     Categories $categories) : Response
     {
         if (!$categories) {
 
