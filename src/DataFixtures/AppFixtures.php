@@ -2,12 +2,14 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Articles;
 use Faker\Factory;
+use App\Entity\User;
 use Faker\Generator;
+use App\Entity\Articles;
 use App\Entity\Categories;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -22,7 +24,7 @@ class AppFixtures extends Fixture
         $this->faker = Factory::create('fr_FR');
     }
 
-    public function load(ObjectManager $manager): void
+    public function load(ObjectManager $manager,): void
     {
 
         // Categories
@@ -41,6 +43,19 @@ class AppFixtures extends Fixture
                 ->setDescription($this->faker->text(300));
 
             $manager->persist($article);
+        }
+
+        //User
+        for ($u=0; $u < 10; $u++) { 
+            $user = new User();
+            $user->setEmail($this->faker->email())
+                ->setUsername($this->faker->name())
+                ->setRoles(['ROLE_USER'])
+                ->setPlainPassword('password');
+                
+
+
+                $manager->persist($user);
         }
 
         $manager->flush();

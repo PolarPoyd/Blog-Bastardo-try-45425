@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bastardo - Connexion{% endblock %}
+
+{% block body %}
+
+    <h1 class="d-flex justify-content-center mt-4">Formulaire de connexion</h1>
+
+<div class="d-flex justify-content-center mt-5">
+
+    <form action="{{ path('security.login') }}" method="post">
+
+        <fieldset>
+
+            <legend>Connectes toi pour trouver les filles chaudes de ta région</legend>
+
+        <div class="form-group">
+            <label for="username" class="form-label mt-4">Pseudo</label>
+            <input type="text" class="form-control" id="username" name="_username" placeholder="Enter votre pseudo">
+            {# <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais cet email.</small> #}
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="form-label mt-4">Mot de passe</label>
+            <input type="password" class="form-control" id="password" name="_password" placeholder="********">
+        </div>
+
+        {# <div class="form-group">
+            <label for="formFile" class="form-label mt-4">Default file input example</label>
+            <input class="form-control" type="file" id="formFile">
+        </div> #}
+
+        </fieldset>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-outline-primary">Se connecter</button>
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
