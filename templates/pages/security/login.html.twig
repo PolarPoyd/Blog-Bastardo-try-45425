@@ -6,6 +6,18 @@
 
     <h1 class="d-flex justify-content-center mt-4">Formulaire de connexion</h1>
 
+    {% for message in app.flashes('success') %}
+        <div class=" alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% if error %}
+        <div class="alert alert-dismissible alert-danger">
+            {{ error.messageKey|trans(error.messageData, 'security') }}
+        </div>
+    {% endif %}
+
 <div class="d-flex justify-content-center mt-5">
 
     <form action="{{ path('security.login') }}" method="post">
@@ -16,7 +28,8 @@
 
         <div class="form-group">
             <label for="username" class="form-label mt-4">Pseudo</label>
-            <input type="text" class="form-control" id="username" name="_username" placeholder="Enter votre pseudo">
+            <input type="text" class="form-control" id="username" 
+            name="_username" placeholder="Enter votre pseudo" value="{{ last_username }}">
             {# <small id="emailHelp" class="form-text text-muted">Nous ne partagerons jamais cet email.</small> #}
         </div>
 

@@ -25,12 +25,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min:'2', max:'180')]
     private ?string $email = null;
 
-    #[ORM\Column(length: 180, unique: true)]
+    #[ORM\Column(length: 50, unique: true)]
     #[Assert\Length(min:'2', max:'50')]
-    #[Assert\Email()]
     private ?string $username = null;
     
-    #[ORM\Column]
+    #[ORM\Column(type:'json')]
+    #[Assert\NotNull()]
     private array $roles = [];
 
     private ?string $plainPassword = null;
@@ -38,10 +38,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column(type:'json')]
+    #[ORM\Column(type:'string')]
     #[Assert\NotBlank()]
-    #[Assert\NotNull()]
-    private ?string $password = null;
+    private string $password = 'password';
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
