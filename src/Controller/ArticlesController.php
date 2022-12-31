@@ -28,7 +28,7 @@ class ArticlesController extends AbstractController
      Request $request): Response
     {
         $articles = $paginator->paginate(
-            $repository->findAll(),
+            $repository->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1), /*page number*/
             10 /*limit per page*/
         );
@@ -56,6 +56,7 @@ class ArticlesController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $article = $form->getData();
+            $article->setUser($this->getUser());
 
             $manager->persist($article);
             $manager->flush();

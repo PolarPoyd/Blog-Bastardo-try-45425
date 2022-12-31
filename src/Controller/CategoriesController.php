@@ -32,7 +32,7 @@ class CategoriesController extends AbstractController
     
     {
         $categories = $paginator->paginate(
-            $repository->findAll(),
+            $repository->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1), /*page number*/
             10 /*limit per page*/
         );
@@ -63,6 +63,7 @@ class CategoriesController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $categories = $form->getData();
+            $categories->setUser($this->getUser());
 
             $manager->persist($categories);
             $manager->flush();

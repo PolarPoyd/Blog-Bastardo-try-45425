@@ -27,25 +27,8 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager,): void
     {
 
-        // Categories
-        $categories = [];
-        for ($i=0; $i <= 100 ; $i++) { 
-        $category = new Categories();
-        $category->setName($this->faker->word());
-
-        $categories[] = $category;
-        $manager->persist($category);
-    }
-        // Articles
-        for ($j=0; $j <= 25; $j++) { 
-            $article = new Articles();
-            $article->setTitle($this->faker->word())
-                ->setDescription($this->faker->text(300));
-
-            $manager->persist($article);
-        }
-
-        //User
+        //Users
+        $users = [];
         for ($u=0; $u < 10; $u++) { 
             $user = new User();
             $user->setEmail($this->faker->email())
@@ -54,8 +37,29 @@ class AppFixtures extends Fixture
                 ->setPlainPassword('password');
                 
 
-
+                $users[] = $user;
                 $manager->persist($user);
+        }
+
+        // Categories
+        $categories = [];
+        for ($i=0; $i <= 100 ; $i++) { 
+        $category = new Categories();
+        $category->setName($this->faker->word())
+            ->setUser($users[mt_rand(0, count($users) - 1)]);
+
+
+        $categories[] = $category;
+        $manager->persist($category);
+    }
+        // Articles
+        for ($j=0; $j <= 25; $j++) { 
+            $article = new Articles();
+            $article->setTitle($this->faker->word())
+                ->setDescription($this->faker->text(300))
+                ->setUser($users[mt_rand(0, count($users) - 1)]);
+
+            $manager->persist($article);
         }
 
         $manager->flush();

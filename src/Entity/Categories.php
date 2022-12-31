@@ -30,6 +30,10 @@ class Categories
     #[ORM\ManyToMany(targetEntity: Articles::class, mappedBy: 'categories')]
     private Collection $articles;
 
+    #[ORM\ManyToOne(inversedBy: 'categories')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
 
     /**
      * Constructor
@@ -93,6 +97,18 @@ class Categories
         if ($this->articles->removeElement($article)) {
             $article->removeCategory($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
