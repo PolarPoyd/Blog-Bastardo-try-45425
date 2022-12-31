@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bastardo - Modification de l'utilisateur{% endblock %}
+
+{% block body %}
+
+<h1 class="d-flex justify-content-center mt-4">Modification du compte de {{ app.user.username }}</h1>
+
+{% for message in app.flashes('warning') %}
+    <div class="alert alert-warning mt-4">{{ message }}</div>
+    
+{% endfor %}
+
+<div class="d-flex justify-content-center mt-5">
+    {{ form(form) }}
+</div>
+
+{# <div class="d-flex justify-content-center bg-dark mt-2">
+
+    <a href="{{ path('home.index') }}" class="btn btn-outline-primary align-item-center">
+        Annuler
+    </a>
+</div> #}
+{% endblock %}

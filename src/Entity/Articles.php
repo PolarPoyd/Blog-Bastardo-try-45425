@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ArticlesRepository::class)]
-#[UniqueEntity('title')]
+// #[UniqueEntity('title')]
 class Articles
 {
     #[ORM\Id]
@@ -26,7 +26,7 @@ class Articles
 
     #[ORM\Column]
     #[Assert\NotNull()]
-    private ?\DateTimeImmutable $created_at = null;
+    private \DateTimeImmutable $created_at;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank()]
@@ -34,7 +34,7 @@ class Articles
 
     #[ORM\Column]
     #[Assert\NotNull()]
-    private ?\DateTimeImmutable $updated_at = null;
+    private \DateTimeImmutable $updated_at;
 
     #[ORM\ManyToMany(targetEntity: Categories::class, inversedBy: 'articles')]
     private Collection $categories;
@@ -48,10 +48,10 @@ class Articles
     }
     
 
-    #[ORM\PrePersist]
+    #[ORM\PrePersist()]
     public function setUpdatedAtValue()
     {
-
+        $this->updated_at = new \DateTimeImmutable();
     }
 
     public function getId(): ?int

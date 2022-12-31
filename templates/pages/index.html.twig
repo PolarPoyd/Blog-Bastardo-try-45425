@@ -6,12 +6,25 @@
 {% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success mt-4">{{ message }}</div>
+    
+    {% endfor %}
 <div class="d-flex justify-content-center mt-5">
     <div>   
 
-     {# <h2 class="d-flex justify-content-center">Hello {{ app.user.username }}!</h2> #}
+    {% if app.user %}
+    
+     <h2 class="d-flex justify-content-center">Hello {{ app.user.username }}!</h2>
+
+    {% else %}
+
      <h2 class="d-flex justify-content-center">Hello !</h2>
 
+
+    {% endif %}
+
+    
         <div class="container">
         <p>je vais devoir trouver une idée comme page de 'au bon acceuil' du site zebi</p>
         </div>
