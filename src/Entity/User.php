@@ -45,6 +45,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $created_at = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $uptated_at = null;
+
     public function __construct()
     {
         $this->created_at = new \DateTimeImmutable();
@@ -165,6 +168,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUptatedAt(): ?\DateTimeImmutable
+    {
+        return $this->uptated_at;
+    }
+
+    public function setUptatedAt(\DateTimeImmutable $uptated_at): self
+    {
+        $this->uptated_at = $uptated_at;
 
         return $this;
     }

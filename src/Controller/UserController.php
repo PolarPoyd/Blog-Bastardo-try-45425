@@ -79,20 +79,20 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($hasher->isPasswordValid($user, $form->getData()['plainPassword'])) {
-                $user->setPassword(
-                    $hasher->hashPassword(
-                        $user,
+                $user->setUptatedAt(new \DateTimeImmutable());
+                $user->setPlainPassword(
                         $form->getData()['newPassword']
-                    )
-                );
+                    );
+                    
+                    $this->addFlash(
+                        'success',
+                        'Le mot de passe a bien été modifié.'
+                    );
 
+                    
                 $manager->persist($user);
                 $manager->flush();
 
-                $this->addFlash(
-                    'success',
-                    'Le mot de passe a bien été modifié.'
-                );
 
                 return $this->redirectToRoute('home.index');
             } else {
