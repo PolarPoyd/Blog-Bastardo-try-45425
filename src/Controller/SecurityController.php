@@ -23,6 +23,10 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
     
+        if ($this->getUser()) {
+            return $this->redirectToRoute('home.index');
+        }
+
         return $this->render('pages/security/login.html.twig', [
             'last_username' => $authenticationUtils->getLastUsername(),
             'error' => $authenticationUtils->getLastAuthenticationError()
@@ -40,38 +44,44 @@ class SecurityController extends AbstractController
         //Rien à faire ici
     }
 
-    /**
-     * This controller allow us to register
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $manager
-     * @return Response
-     */
-    #[Route('/inscription', 'security.registration', methods: ['GET', 'POST'])]
-    public function registration(Request $request,
-    EntityManagerInterface $manager) : Response
-    {
-        $user = new User();
-        $user->setRoles(['ROLE_USER']);
-        $form = $this->createForm(RegistrationType::class, $user);
+    // /**
+    //  * This controller allow us to register
+    //  *
+    //  * @param Request $request
+    //  * @param EntityManagerInterface $manager
+    //  * @return Response
+    //  */
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
 
-            $this->addFlash(
-                'success',
-                'votre compte a bien été crée'
-            );
+    // #[Route('/inscription', 'security.registration', methods: ['GET', 'POST'])]
+    // public function registration(Request $request,
+    // EntityManagerInterface $manager) : Response
+    // {
+    //     if ($this->getUser()) {
+    //         return $this->redirectToRoute('home.index');
+    //     }
 
-            $manager->persist($user);
-            $manager->flush();
+    //     $user = new User();
+    //     $user->setRoles(['ROLE_USER']);
+    //     $form = $this->createForm(RegistrationType::class, $user);
 
-            return $this->redirectToRoute('security.login');
-        }
+    //     $form->handleRequest($request);
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $user = $form->getData();
 
-        return $this->render('pages/security/registration.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
+    //         $this->addFlash(
+    //             'success',
+    //             'votre compte a bien été crée'
+    //         );
+
+    //         $manager->persist($user);
+    //         $manager->flush();
+
+    //         return $this->redirectToRoute('security.login');
+    //     }
+
+    //     return $this->render('pages/security/registration.html.twig', [
+    //         'form' => $form->createView()
+    //     ]);
+    // }
 }

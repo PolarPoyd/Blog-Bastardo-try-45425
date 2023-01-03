@@ -25,7 +25,7 @@ class UserType extends AbstractType
                     'minlength' => '2',
                     'maxlength' => '50',
                 ],
-                'label' =>'Pseudo ( obligatoire )',
+                'label' =>'Changez votre pseudo',
                 'label_attr' => [
                     'class' => 'form-label mt-3'
                 ],
@@ -40,7 +40,7 @@ class UserType extends AbstractType
                     'attr' => [
                         'class' => 'form-control'
                     ],
-                    'label' => 'Mot de passe',
+                    'label' => 'Entrez votre mot de passe',
                     'label_attr' => [
                         'class' => 'form-label mt-3'
                     ],
@@ -55,7 +55,8 @@ class UserType extends AbstractType
                     ->add('submit', SubmitType::class, [
                         'attr' => [
                             'class' => 'btn btn-outline-primary mt-4'
-                        ]
+                        ],
+                    'label' => 'Valider'
                     ]);
     }
 

@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ArticleType extends AbstractType
 {
@@ -53,6 +53,13 @@ class ArticleType extends AbstractType
                     new Assert\NotBlank()
                 ]
                 ])
+
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Image de l\'article',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ]
+            ])
             // ->add('created_at') généré auto donc commenté ok
             ->add('description', TextareaType::class, [
                 'attr' => [

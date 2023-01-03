@@ -7,10 +7,12 @@ use App\Form\ArticleType;
 use App\Repository\ArticlesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticlesController extends AbstractController
 {
@@ -46,6 +48,7 @@ class ArticlesController extends AbstractController
      * @return Response
      */
     #[Route('/articles/creation', 'article.new', methods:['POST', 'GET'])]
+    #[IsGranted('ROLE_USER')]
     public function new (Request $request,
     EntityManagerInterface $manager) : Response
     {
@@ -81,6 +84,7 @@ class ArticlesController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
+    #[Security("is_granted('ROLE_USER') and user === article.getUser()")]
     #[Route('/articles/edition/{id}', 'article.edit', methods:['GET', 'POST'])]
     public function edit(Articles $article,
     Request $request,

@@ -25,6 +25,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Nom</th>
                     <th scope="col">Date de création</th>
+                    <th scope="col">Auteur</th>
                     {# <th scope="col">Articles associés</th> #}
                     <th scope="col">Edition</th>
                     <th scope="col">Suppression</th>
@@ -37,6 +38,7 @@
                     <th scope="row">{{ categories.id }}</th>
                         <td>{{ categories.name }}</td>
                         <td>{{ categories.createdAt|date('d/m/Y') }}</td>
+                        <td>{{ categories.user.username}}</td>
                         {# <td>{{ (categories.id articles.id is null) ? 'Aucun pour le moment' : categories.id articles.id }}</td> #}
                         <td>
                             <a href="{{ path('categories.edit', { id: categories.id}) }}" class="btn btn-outline-primary">Modifier</a>
@@ -54,7 +56,12 @@
     {{ knp_pagination_render(categories) }}
 </div>
 {% else %}
-<h4>Il n'y a pas d'ingrédients</h4>
+<h4 class="d-flex justify-content-center mt-3">Vous ne possédez pas de catégories pour le moment</h4>
+<div class="d-flex justify-content-center mt-5">
+    <a href="{{ path('categories.new') }}" class="btn btn-outline-primary m-4">
+        Créer une catégorie
+    </a>
+</div>
 {% endif %}
     </div>
 

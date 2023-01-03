@@ -8,10 +8,12 @@ use App\Repository\CategoriesRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use LDAP\Result;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CategoriesController extends AbstractController
 {
@@ -26,6 +28,7 @@ class CategoriesController extends AbstractController
      */ 
 
     #[Route('/categories', name: 'categories.index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(CategoriesRepository $repository, PaginatorInterface $paginator,
     Request $request): Response
 
@@ -52,6 +55,7 @@ class CategoriesController extends AbstractController
      * @return Response
      */
     #[Route('/categories/nouveau', 'categories.new', methods:['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(
         Request $request, 
         EntityManagerInterface $manager
@@ -88,6 +92,8 @@ class CategoriesController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
+
+    #[Security("is_granted('ROLE_USER') and user === categories.getUser()")]
     #[Route('/categories/edition/{id}', 'categories.edit', methods:['GET', 'POST'])]
     public function edit(Categories $categories,
     Request $request,
